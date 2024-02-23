@@ -99,5 +99,13 @@ namespace ShapeTracker.Tests
       string triType = scaleneTri.CheckType();
       Assert.AreEqual("scalene triangle", triType);
     }
+
+    [TestMethod]
+    public void CheckType_DeterminesWhenIsosceles_String()
+    {
+      Triangle isoscelesTri = new Triangle(5, 4, 4);
+      string triType = isoscelesTri.CheckType();
+      Assert.AreEqual("isosceles triangle", triType);
+    }
   }
 }
