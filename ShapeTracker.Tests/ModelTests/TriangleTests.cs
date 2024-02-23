@@ -1,11 +1,22 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShapeTracker.Models;
+using System.Collections.Generic;
+// needed for `List<T>` type
+using System;
 
 namespace ShapeTracker.Tests
 {
   [TestClass]
-  public class TriangleTests
+  public class TriangleTests : IDisposable
+  // ":" extends functionality from `IDisposalbe` to `TriangleTests` class 
+  // `IDisposable`: for `Dispose()` method that resets data between tests
   {
+    public void Dispose()
+    {
+      Triangle.ClearAll();
+      // `ClearAll()` is NOT a built-in method
+    }
+
     [TestMethod]
     public void TriangleConstructor_CreatesInstanceOfTriangle_Triangle()
     // public: allows the tools running our tests to access them. 
@@ -114,6 +125,18 @@ namespace ShapeTracker.Tests
       Triangle equilateralTri = new Triangle(4, 4, 4);
       string triType = equilateralTri.CheckType();
       Assert.AreEqual("equilateral triangle", triType);
+    }
+
+    [TestMethod]
+    public void GetAll_ReturnsAllTriangleInstances_List()
+    {
+      Triangle tri1 = new Triangle(2, 2, 9);
+      Triangle tri2 = new Triangle(21, 3, 9);
+      Triangle tri3 = new Triangle(1, 3, 9);
+      List<Triangle> expected = new List<Triangle> { tri1, tri2, tri3 };
+      List<Triangle> actualResult = Triangle.GetAll();
+      CollectionAssert.AreEqual(expected, actualResult); 
+      // CollectionAssert vs. Assert: meant to compare collections i.e. arrays, lists, or dictionaries
     }
   }
 }
